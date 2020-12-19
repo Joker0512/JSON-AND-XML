@@ -1,18 +1,19 @@
 import json
 
+
 def read_files(name):
-    j = 'json'
-    x = 'xml'
-    if j in name:
+    file_json = 'json'
+    file_xml = 'xml'
+    if file_json in name:
         with open(name, encoding='utf-8') as datafile:
             json_data = json.load(datafile)
             description_text = ''
             for items in json_data['rss']['channel']['items']:
                 description_text += ' ' + items['description']
         return description_text
-    elif x in name:
+    elif file_xml in name:
         import xml.etree.ElementTree as ET
-        tree = ET.parse(name)
+        tree = ET.parse("newsafr.xml")
         root = tree.getroot()
         xml_items = root.findall("./channel/item/description")
         description_text = ''
@@ -21,24 +22,22 @@ def read_files(name):
         return description_text
 
 
-def count_word(original_text):
-    to_list = original_text.split(' ')
-    to_set = set()
-    for i in to_list:
-        if len(i) > 6:
-            to_set.add(i)
+def count(description_text):
+    number = int(input('Введите кол-во символов : '))
+    list_split = description_text.split(' ')
     word_value = {}
-    for i in to_set:
-        count = 0
-        for j in to_list:
-            if i == j:
-                count += 1
-        word_value[i] = count
+    for word in list_split:
+        if len(word) > number:
+            if word in word_value:
+                word_value[word] += 1
+            else:
+                word_value[word] = 1
     return word_value
 
 
 def sort_top(word_value):
-    l = lambda word_value: (word_value[1], word_value[1])
+    top = int(input('Введите кол-во топов : '))
+    l= lambda word_value: (word_value[1], word_value[1])
     sort_list = sorted(word_value.items(), key=l, reverse=True)
     count = 1
     top_10 = {}
@@ -46,7 +45,7 @@ def sort_top(word_value):
     for word in sort_list:
         top_10[count] = word
         count += 1
-        if count == 10:
+        if count == top:
             break
 
     for top_10 in top_10.values():
@@ -56,15 +55,9 @@ def sort_top(word_value):
 
 def main_menu():
     name = input('Введите имя файла json или xml : ')
+    sort_top(count(read_files(name)))
     print('Загрузка.....')
-    if 'json' in name:
-        sort_top(count_word(read_files(name)))
-
-    elif 'xml' in name:
-        sort_top(count_word(read_files(name)))
-
-    else:
-        print('ОШИБКА')
 
 
 main_menu()
+
