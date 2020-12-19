@@ -37,8 +37,8 @@ def count(description_text):
 
 def sort_top(word_value):
     top = int(input('Введите кол-во топов : '))
-    l= lambda word_value: (word_value[1], word_value[1])
-    sort_list = sorted(word_value.items(), key=l, reverse=True)
+    dict_sort = lambda dict_word_value: (dict_word_value[1], dict_word_value[1])
+    sort_list = sorted(word_value.items(), key=dict_sort, reverse=True)
     count = 1
     top_10 = {}
 
