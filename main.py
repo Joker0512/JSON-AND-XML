@@ -56,7 +56,6 @@ def sort_top(word_value):
 def main_menu():
     name = input('Введите имя файла json или xml : ')
     sort_top(count(read_files(name)))
-    print('Загрузка.....')
 
 
 main_menu()
