@@ -22,8 +22,7 @@ def read_files(name):
         return description_text
 
 
-def count(description_text):
-    number = int(input('Введите кол-во символов : '))
+def count(description_text, number):
     list_split = description_text.split(' ')
     word_value = {}
     for word in list_split:
@@ -35,8 +34,7 @@ def count(description_text):
     return word_value
 
 
-def sort_top(word_value):
-    top = int(input('Введите кол-во топов : '))
+def sort_top(word_value, top):
     dict_sort = lambda dict_word_value: (dict_word_value[1], dict_word_value[1])
     sort_list = sorted(word_value.items(), key=dict_sort, reverse=True)
     count = 1
@@ -55,7 +53,10 @@ def sort_top(word_value):
 
 def main_menu():
     name = input('Введите имя файла json или xml : ')
-    sort_top(count(read_files(name)))
+    number = int(input('Введите кол-во символов : '))
+    top = int(input('Введите кол-во топов : '))
+    count(read_files(name), number)
+    sort_top(count(read_files(name), number), top)
 
 
 main_menu()
